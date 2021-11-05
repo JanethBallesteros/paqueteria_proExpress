@@ -15,7 +15,7 @@
     <template v-else  >
       <v-app class="main-cotainer"  >
         <v-content class="app1">
-          <v-card :loading="loading"  class="form-container">
+          <v-card   class="form-container">
             <v-img
               class="white--text align-end"
               height="30%"
@@ -23,15 +23,22 @@
             >
             </v-img>
             <v-card-text class="text--primary">
+              <v-form
+                ref="form"
+                v-model="valid"
+                lazy-validation
+              >
               <v-row>
                 <v-col
                   cols="12"
                 >
               <v-text-field
-                :rules="rules"
+                v-model="name"
                 label="Correo Electronico"
                 dense
                 outlined
+                required
+                :rules="emailRules"
               ></v-text-field>
               </v-col>
               </v-row>
@@ -45,25 +52,45 @@
                   :type="show1 ? 'text' : 'password'"
                   name="input-10-1"
                   label="Contraseña"
-                  counter
                   dense
                   outlined
                   @click:append="show1 = !show1"
+                  :rules="passRules"
+                  required
                 ></v-text-field>
               </v-col>
             </v-row>
+            </v-form>
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn  text >
+              <v-btn  text @click="snackbar = true, validate()">
                 Iniciar Sesion
               </v-btn>
             </v-card-actions>
           </v-card>
         </v-content>
       </v-app>
+    <v-snackbar
+      v-model="snackbar"
+      :timeout="2000"
+      absolute
+      top
+    >
+      Error! Credenciales invalidas.
+
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          color="blue"
+          text
+          v-bind="attrs"
+          @click="snackbar = false"
+        >
+          x
+        </v-btn>
+      </template>
+    </v-snackbar>
     </template>
-    
   </div>
 </template>
 
@@ -78,11 +105,27 @@ export default {
     "nav-drawer": nav_drawer,
     "nav-bar": nav_bar
   },
+  methods: {
+      validate () {
+        this.$refs.form.validate()
+      },
+      
+    },
   data: () => ({
     drawer: false,
     incioLog: false,
     show1: false,
     password: "",
+    snackbar: false,
+    valid: true,
+    name: '',
+    emailRules: [
+        v => !!v || 'Este campo es requerido',
+        v => /.+@.+\..+/.test(v) || 'E-mail debe ser valido'
+      ],
+    passRules: [
+        v => !!v || 'Este campo es requerido'
+      ],
   })
 }
 </script>
