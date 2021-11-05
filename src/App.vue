@@ -15,7 +15,7 @@
     <template v-else  >
       <v-app class="main-cotainer"  >
         <v-content class="app1">
-          <v-card   class="form-container">
+          <v-card  dark class="form-container">
             <v-img
               class="white--text align-end"
               height="30%"
@@ -64,7 +64,7 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn  text @click="snackbar = true, validate()">
+              <v-btn  text @click="validate()">
                 Iniciar Sesion
               </v-btn>
             </v-card-actions>
@@ -108,6 +108,10 @@ export default {
   methods: {
       validate () {
         this.$refs.form.validate()
+        if (this.valid) {
+          this.snackbar = true
+        }
+        
       },
       
     },
