@@ -201,5 +201,18 @@ export default {
 
 }
 
+@media screen and (max-width:700px){
+
+.form-container {
+  margin-left: 10%;
+  margin-right:10%;
+  margin-top: 10%;
+  height: 800px;
+  max-height: 400px;
+  weight: 100px;
+}                        
+
+}
+
 </style>
 
